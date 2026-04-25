@@ -3,6 +3,7 @@ import { checkPNR } from './api'
 import SearchBar from './components/SearchBar'
 import TrainCard from './components/TrainCard'
 import PredictionCard from './components/PredictionCard'
+import ChartPreparedCard from './components/ChartPreparedCard'
 import WLTimeline from './components/WLTimeline'
 
 const s = {
@@ -65,12 +66,19 @@ export default function App() {
       {result && !loading && (
         <>
           <TrainCard info={result.train_info} />
-          <PredictionCard prediction={result.prediction} />
-          <WLTimeline history={result.prediction.wl_movement_history} />
-          <div style={s.disclaimer}>
-            Predictions based on historical data &amp; ML models. Actual confirmation depends on IRCTC quota policies.<br/>
-            Last checked: {new Date().toLocaleTimeString('en-IN')} · Data from public railway APIs.
-          </div>
+
+          {result.train_info.chart_prepared ? (
+            <ChartPreparedCard passengers={result.train_info.passengers} />
+          ) : (
+            <>
+              <PredictionCard prediction={result.prediction} />
+              <WLTimeline history={result.prediction.wl_movement_history} />
+              <div style={s.disclaimer}>
+                Predictions based on historical data &amp; ML models. Actual confirmation depends on IRCTC quota policies.<br/>
+                Last checked: {new Date().toLocaleTimeString('en-IN')} · Data from public railway APIs.
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
