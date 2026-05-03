@@ -60,7 +60,7 @@ export default function PredictionCard({ prediction, isRAC }) {
     { label: 'Days to travel', value: f.days_to_travel + ' days', trend: f.days_to_travel >= 7 ? '↑ Good window' : f.days_to_travel >= 3 ? '→ Moderate' : '↓ Very close' },
     { label: 'WL movement', value: f.wl_movement_7d > 0 ? `-${f.wl_movement_7d} in 7d` : 'No movement', trend: f.wl_movement_7d >= 5 ? '↑ Moving fast' : f.wl_movement_7d >= 2 ? '→ Moving slow' : '↓ Stalled' },
     { label: 'Avg cancellations', value: f.avg_daily_cancellations + '/day', trend: f.avg_daily_cancellations >= 15 ? '↑ High on route' : '→ Normal' },
-    { label: 'Current WL', value: '#' + f.current_wl_number, trend: f.current_wl_number <= 10 ? '↑ Very close' : f.current_wl_number <= 25 ? '→ Mid range' : '↓ Deep WL' },
+    { label: isRAC ? 'RAC Position' : 'Current WL', value: '#' + f.current_wl_number, trend: isRAC ? '→ Berth confirmed' : f.current_wl_number <= 10 ? '↑ Very close' : f.current_wl_number <= 25 ? '→ Mid range' : '↓ Deep WL' },
     { label: 'Tatkal boost', value: '+' + f.tatkal_seats_expected + ' seats', trend: f.tatkal_seats_expected >= 5 ? '↑ Good boost' : '→ Small boost' },
   ]
 
@@ -88,7 +88,7 @@ export default function PredictionCard({ prediction, isRAC }) {
         </div>
       </div>
 
-      <div style={s.grid}>  
+      <div style={s.grid}>
         {factors.map(f => (
           <div key={f.label} style={s.factor}>
             <div style={s.fLabel}>{f.label}</div>

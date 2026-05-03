@@ -21,7 +21,8 @@ const s = {
 
 function statusStyle(status) {
   if (status?.startsWith('CNF')) return { background: '#dcfce7', color: '#15803d' }
-  if (status?.startsWith('RAC')) return { background: '#fef9c3', color: '#854d0e' }
+  if (status?.startsWith('RAC')) return { background: '#dcfce7', color: '#15803d' }  // RAC = boarding guaranteed = green
+  if (status?.startsWith('CAN')) return { background: '#fef2f2', color: '#991b1b' }
   return { background: '#fef3c7', color: '#92400e' }
 }
 
