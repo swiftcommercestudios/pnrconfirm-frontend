@@ -52,8 +52,9 @@ export default function PredictionCard({ prediction, isRAC }) {
     }
   }, [prob])
 
-  const recStyle = prob >= 70 ? s.recHigh : prob >= 40 ? s.recMed : s.recLow
-  const recTextStyle = prob >= 70 ? { color: '#15803d' } : prob >= 40 ? s.recMedText : s.recLowText
+  // RAC = boarding guaranteed = always show green recommendation box
+  const recStyle = isRAC ? s.recHigh : prob >= 70 ? s.recHigh : prob >= 40 ? s.recMed : s.recLow
+  const recTextStyle = isRAC ? { color: '#15803d' } : prob >= 70 ? { color: '#15803d' } : prob >= 40 ? s.recMedText : s.recLowText
 
   const factors = [
     { label: 'Historical rate', value: f.historical_confirmation_rate + '%', trend: f.historical_confirmation_rate >= 65 ? '↑ Above avg' : '↓ Below avg' },
