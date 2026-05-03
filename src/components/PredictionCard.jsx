@@ -40,7 +40,7 @@ function trendStyle(val) {
   return { color: '#d97706' }
 }
 
-export default function PredictionCard({ prediction }) {
+export default function PredictionCard({ prediction, isRAC }) {
   const barRef = useRef(null)
   const prob = prediction.confirmation_probability
   const color = probColor(prob)
@@ -68,8 +68,8 @@ export default function PredictionCard({ prediction }) {
     <div style={s.card}>
       <div style={s.header}>
         <div>
-          <div style={s.title}>Confirmation Probability</div>
-          <div style={s.subtitle}>Based on {prediction.confidence_score * 100 | 0}% model confidence</div>
+          <div style={s.title}>{isRAC ? 'Full Berth Probability' : 'Confirmation Probability'}</div>
+          <div style={s.subtitle}>{isRAC ? 'RAC berth guaranteed · predicting full berth chances' : `Based on ${prediction.confidence_score * 100 | 0}% model confidence`}</div>
         </div>
         <div>
           <div style={{ ...s.pct, color }}>{prob}%</div>
@@ -88,7 +88,7 @@ export default function PredictionCard({ prediction }) {
         </div>
       </div>
 
-      <div style={s.grid}>
+      <div style={s.grid}>  
         {factors.map(f => (
           <div key={f.label} style={s.factor}>
             <div style={s.fLabel}>{f.label}</div>

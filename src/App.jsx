@@ -67,18 +67,24 @@ export default function App() {
         <>
           <TrainCard info={result.train_info} />
 
-          {(result.train_info.chart_prepared || result.train_info.passengers?.[0]?.current_status?.toUpperCase().startsWith('CAN')) ? (
-            <ChartPreparedCard passengers={result.train_info.passengers} chartPrepared={result.train_info.chart_prepared} />
-          ) : (
-            <>
-              <PredictionCard prediction={result.prediction} />
-              <WLTimeline history={result.prediction.wl_movement_history} />
-              <div style={s.disclaimer}>
-                Predictions based on historical data &amp; ML models. Actual confirmation depends on IRCTC quota policies.<br/>
-                Last checked: {new Date().toLocaleTimeString('en-IN')} · Data from public railway APIs.
-              </div>
-            </>
-          )}
+          {(() => {
+            const status = result.train_info.passengers?.[0]?.current_status?.toUpperCase() || ''
+            const noPredict = result.train_info.chart_prepared || status.startsWith('CAN')
+            if (noPredict) return <ChartPreparedCard passengers={result.train_info.passengers} chartPrepared={result.train_info.chart_prepared} />
+            return (
+              <>
+                <PredictionCard 
+                  prediction={result.prediction} 
+                  isRAC={result.train_info.passengers?.[0]?.current_status?.toUpperCase().startsWith('RAC')} 
+                />
+                <WLTimeline history={result.prediction.wl_movement_history} />
+                <div style={s.disclaimer}>
+                  Predictions based on historical data &amp; ML models. Actual confirmation depends on IRCTC quota policies.<br/>
+                  Last checked: {new Date().toLocaleTimeString('en-IN')} · Data from public railway APIs.
+                </div>
+              </>
+            )
+          })()}
         </>
       )}
     </div>
