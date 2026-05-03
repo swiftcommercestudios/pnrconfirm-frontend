@@ -34,6 +34,7 @@ export default function ChartPreparedCard({ passengers }) {
   const firstStatus = passengers?.[0]?.current_status?.toUpperCase() || ''
   const isConfirmed = firstStatus.startsWith('CNF') || firstStatus.includes('CONFIRM')
   const isRAC = firstStatus.startsWith('RAC')
+  const isCancelled = firstStatus.startsWith('CAN') || firstStatus.includes('CAN/MOD')
 
   return (
     <div style={styles.card}>
@@ -50,7 +51,9 @@ export default function ChartPreparedCard({ passengers }) {
 
       <div style={styles.info}>
         <div style={styles.infoText}>
-          {isConfirmed
+          {isCancelled
+            ? '🚫 This ticket has been cancelled or modified. No refund or boarding is applicable.'
+            : isConfirmed
             ? '✅ Great news! Your ticket is confirmed. Chart has been prepared — your seat is assigned.'
             : isRAC
             ? '⚠️ Your ticket is on RAC. You will get a shared berth. Full confirmation depends on last-minute cancellations.'

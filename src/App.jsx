@@ -67,8 +67,8 @@ export default function App() {
         <>
           <TrainCard info={result.train_info} />
 
-          {result.train_info.chart_prepared ? (
-            <ChartPreparedCard passengers={result.train_info.passengers} />
+          {(result.train_info.chart_prepared || result.train_info.passengers?.[0]?.current_status?.toUpperCase().startsWith('CAN')) ? (
+            <ChartPreparedCard passengers={result.train_info.passengers} chartPrepared={result.train_info.chart_prepared} />
           ) : (
             <>
               <PredictionCard prediction={result.prediction} />
