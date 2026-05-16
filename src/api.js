@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const PROD_URL = 'https://web-production-8bac5.up.railway.app'
+const BACKEND_URL = 'https://web-production-8bac5.up.railway.app'
 
 const api = axios.create({
-  baseURL: import.meta.env.PROD ? PROD_URL : '/api',
+  baseURL: BACKEND_URL,
 })
 
 export async function checkPNR(pnr) {
